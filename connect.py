@@ -14,11 +14,12 @@ HOSTS_DATA = {
 
 # Check arguments. Remember that script name is in sys.argv
 MIN_ARGS = 2
-MAX_ARGS = 3
+MAX_ARGS = 4
 
 if len(sys.argv) < MIN_ARGS or len(sys.argv) > MAX_ARGS:
     print 'Invalid arguments. Please set server for ssh, or server and file for scp. '
     print 'Usage: connect server --> Connect to ssh server'
+    print '       connect server cmd command --> Connect to ssh server and execute command'
     print '       connect server file --> Recover file from server in its home folder'
     print '       connect file server --> Send file to home folder server'
     exit(1)
@@ -27,6 +28,8 @@ mode = ''
 if len(sys.argv) == MIN_ARGS:
     mode = 'ssh'
 elif len(sys.argv) == MAX_ARGS:
+    mode = 'ssh_cmd'
+elif len(sys.argv) == (MIN_ARGS + 1):
     mode = 'scp'
 else:
     print 'Undefined error'
@@ -42,6 +45,10 @@ if mode == 'ssh':
         print 'Host not supported. Please contact with admin for adding'
         exit(2)
     cmd = 'ssh -p {} {}@{}'.format(HOSTS_DATA[host]['port'], HOSTS_DATA[host]['user'], host)
+elif mode == 'ssh_cmd':
+    host = sys.argv[1]
+    command = sys.argv[3]
+    cmd = 'ssh -p {} {}@{} "{}"'.format(HOSTS_DATA[host]['port'], HOSTS_DATA[host]['user'], host, command)
 elif mode == 'scp':
     arg1 = sys.argv[1]
     arg2 = sys.argv[2]
