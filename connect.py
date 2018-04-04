@@ -22,7 +22,7 @@ if len(sys.argv) < MIN_ARGS or len(sys.argv) > MAX_ARGS:
     print '       connect server cmd command --> Connect to ssh server and execute command'
     print '       connect server file --> Recover file from server in its home folder'
     print '       connect file server --> Send file to home folder server'
-    exit(1)
+    sys.exit(1)
 
 mode = ''
 if len(sys.argv) == MIN_ARGS:
@@ -33,7 +33,7 @@ elif len(sys.argv) == (MIN_ARGS + 1):
     mode = 'scp'
 else:
     print 'Undefined error'
-    exit(3)
+    sys.exit(3)
 
 
 # Get host and set command
@@ -65,11 +65,11 @@ elif mode == 'scp':
                                              HOSTS_DATA[host]['home'])
     else:
         print 'Host not supported. Please contact with admin for adding'
-        exit(2)
+        sys.exit(2)
 
 else:
     print 'Undefined error'
-    exit(3)
+    sys.exit(3)
 
 # Try to connect
 try:
